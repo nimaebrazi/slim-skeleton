@@ -4,11 +4,12 @@
 namespace App;
 
 
+use App\Contracts\HttpAction;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class HomeAction
+class HomeAction implements HttpAction
 {
     /**
      * @var ContainerInterface
@@ -24,9 +25,18 @@ class HomeAction
         $this->container = $container;
     }
 
+    /**
+     * Execute action with HTTP protocol.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     *
+     * @return mixed
+     */
     public function execute(Request $request, Response $response, array $args)
     {
-        $response->getBody()->write("It works! This is the default welcome page. filan");
+        $response->getBody()->write("It works! This is the default welcome page.");
         return $response;
     }
 }
