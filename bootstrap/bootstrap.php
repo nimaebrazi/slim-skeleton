@@ -1,17 +1,25 @@
 <?php
 
+use App\App;
+use Noodlehaus\Config;
+use Dotenv\Dotenv;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = (new Dotenv\Dotenv(__DIR__ . '/..'))->load();
+$dotenv = (new Dotenv(__DIR__ . '/..'))->load();
+$config = new Config(__DIR__ . '/../config');
 
-$setting = require __DIR__ . '/../bootstrap/settings.php';
 
-$app = new Slim\App([
-    'settings' => $setting
-]);
+$app = new App();
 
-// Setup Dependencies
-require __DIR__ . '/container.php';
+// Gestion de la base de donnees avec Eloquent
+$capsule = new Illuminate\Database\Capsule\Manager();
+$capsule->addConnection(
+    $config->get('database')
+);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
 
 // Register middleware
 require __DIR__ . '/middleware.php';
