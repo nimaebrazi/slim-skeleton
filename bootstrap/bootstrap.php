@@ -12,7 +12,6 @@ $config = new Config(__DIR__ . '/../config');
 
 $app = new App();
 
-// Gestion de la base de donnees avec Eloquent
 $capsule = new Illuminate\Database\Capsule\Manager();
 $capsule->addConnection(
     $config->get('database')
